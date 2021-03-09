@@ -36,34 +36,52 @@ function checkEmptyInput()
     //Add each row
     table = document.getElementById("table");
     function addItem()
-    {
+    {   
         if(!checkEmptyInput()){
-            var newRow = table.insertRow(1),
-            c1 = newRow.insertCell(0),
-            c2 = newRow.insertCell(1),
-            c3 = newRow.insertCell(2),
-            c4 = newRow.insertCell(3),
-            c5 = newRow.insertCell(4),
-            c6 = newRow.insertCell(5),
             fname = document.getElementById("fname").value,
             lname = document.getElementById("lname").value,
             eid = document.getElementById("eid").value;
             email = document.getElementById("email").value;
             mob = document.getElementById("mob").value;
-            c1.innerHTML = fname;
-            c2.innerHTML = lname;
-            c3.innerHTML = eid;
-            c4.innerHTML = email;
-            c5.innerHTML = mob;
-            var bt= document.createElement("button");
-            bt.innerHTML = "Delete";
-            bt.className += 'btn btn-danger';
-            bt.onclick=function() {
-                deleteItem(this);
-                };
-            c6.append(bt)
+            if(mob.length != 10)
+            {
+                alert("Mobile number must be 10 digits");
+            }
+            var reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
+            if(reg.test(email) == false)
+            {
+                alert("Email not valid. please enter valid email id")
+            }
+            if(mob.length ===10 && reg.test(email) == true)
+            {
+                var newRow = table.insertRow(1);
+                c1 = newRow.insertCell(0),
+                c2 = newRow.insertCell(1),
+                c3 = newRow.insertCell(2),
+                c4 = newRow.insertCell(3),
+                c5 = newRow.insertCell(4),
+                c6 = newRow.insertCell(5),
+                c1.innerHTML = fname;
+                c2.innerHTML = lname;
+                c3.innerHTML = eid;
+                c4.innerHTML = email;
+                c5.innerHTML = mob;
+                var bt= document.createElement("button");
+                bt.innerHTML = "Delete";
+                bt.className += 'btn btn-danger';
+                bt.onclick=function() {
+                    deleteItem(this);
+                    };
+                c6.append(bt)
+                document.getElementById("fname").value=""
+                document.getElementById("lname").value=""
+                document.getElementById("eid").value=""
+                document.getElementById("email").value=""
+                document.getElementById("mob").value=""
+                $('#myModal').modal('hide');
             }
         }
+    }
         
     //For delete each row    
         function deleteItem(btn){
