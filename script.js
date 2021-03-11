@@ -56,7 +56,6 @@ function checkEmptyInput()
             }
             if(mob.length ===10 && reg.test(email) == true)
             {
-                //getData();
                 arr.push({
                     fname: document.getElementById("fname").value,
                     lname: document.getElementById("lname").value,
@@ -64,7 +63,11 @@ function checkEmptyInput()
                     email: document.getElementById("email").value,
                     mob: document.getElementById("mob").value,
                 });
-                localStorage.setItem("localData", JSON.stringify(arr) );
+                let newArr = arr.sort(function(a,b){ 
+                    return a.fname.localeCompare(b.fname)
+                });
+                console.log(newArr);
+                localStorage.setItem("localData", JSON.stringify(newArr) );
                 showData();
             }
         }
@@ -78,7 +81,7 @@ function checkEmptyInput()
             table.deleteRow(x);
         }
         for(i=0;i<arr.length;i++){
-            var newRow = table.insertRow(1);
+            var newRow = table.insertRow(i+1);
             newRow.id = i;
             c1 = newRow.insertCell(0),
             c2 = newRow.insertCell(1),
@@ -111,6 +114,7 @@ function checkEmptyInput()
         var str = localStorage.getItem("localData");
         if(str != null)
             arr = JSON.parse(str);
+            //console.log(arr);
     }
         
     //For delete each row    
