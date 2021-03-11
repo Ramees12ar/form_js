@@ -66,7 +66,6 @@ function checkEmptyInput()
                 let newArr = arr.sort(function(a,b){ 
                     return a.fname.localeCompare(b.fname)
                 });
-                console.log(newArr);
                 localStorage.setItem("localData", JSON.stringify(newArr) );
                 showData();
             }
@@ -94,13 +93,63 @@ function checkEmptyInput()
             c3.innerHTML = arr[i].eid;
             c4.innerHTML = arr[i].email;
             c5.innerHTML = arr[i].mob;
+            //button added for edit
+            var bt2= document.createElement("button");
+            bt2.innerHTML = "Edit";
+            bt2.className += 'btn btn-primary';
+            bt2.onclick = function (){
+                $("#editModal").modal('toggle');
+                var rowId = event.target.parentNode.parentNode.id;
+                var Data = JSON.parse(localStorage.getItem("localData"));
+                let newData = Data.filter(function (id,index) {
+                        return index == rowId;
+                });
+                //console.log(newData);
+                document.getElementById('getts').value=rowId;
+                //console.log(document.getElementById('getts').value)
+                var len = newData.length;
+                for(var i = 0; i<len; i++)
+                {
+                    for(var key in newData[i])
+                    {
+                        if(key === "fname")
+                        {
+                            var le = (newData[i][key]);
+                            document.getElementById('fname2').value=le;
+                        }
+                        else if(key === "lname")
+                        {
+                            var le = (newData[i][key]);
+                            document.getElementById('lname2').value=le;
+                        }
+                        else if(key === "eid")
+                        {
+                            var le = (newData[i][key]);
+                            document.getElementById('eid2').value=le;
+                        }
+                        else if(key === "email")
+                        {
+                            var le = (newData[i][key]);
+                            document.getElementById('email2').value=le;
+                        }
+                        else if(key === "mob")
+                        {
+                            var le = (newData[i][key]);
+                            document.getElementById('mob2').value=le;
+                        }
+                    }
+                }
+            }
+            c6.append(bt2);
+            //button added for delete
             var bt= document.createElement("button");
             bt.innerHTML = "Delete";
             bt.className += 'btn btn-danger';
+            bt.style.marginLeft = "3px";
             bt.onclick=function() {
                 deleteItem();
             };
-            c6.append(bt)
+            c6.append(bt);
             document.getElementById("fname").value=""
             document.getElementById("lname").value=""
             document.getElementById("eid").value=""
@@ -120,7 +169,6 @@ function checkEmptyInput()
     //For delete each row    
         function deleteItem(){
             var rowId = event.target.parentNode.parentNode.id;
-            //alert(rowId);
             //table = document.getElementById("table");
             //table.deleteRow(rowId);
             var Data = JSON.parse(localStorage.getItem("localData"));
@@ -131,4 +179,23 @@ function checkEmptyInput()
             window.location.reload();
         }
 
+    //edit data
+    function editItem(){
+        //var Id = event.target.parentNode.parentNode.id;
+        var rowId=document.getElementById("getts").value;
+        //alert(x);
+        getData();
+        for (i=0;i<arr.length;i++)
+        {
+            if(i==rowId){
+                arr[i].fname = document.getElementById("fname2").value;
+                arr[i].lname = document.getElementById("lname2").value;
+                arr[i].email = document.getElementById("email2").value;
+                arr[i].eid = document.getElementById("eid2").value;
+                arr[i].mob = document.getElementById("mob2").value;
+            }
+        }
+        localStorage.setItem("localData",JSON.stringify(arr));
+        window.location.reload();
         
+    }
