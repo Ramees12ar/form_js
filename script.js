@@ -179,9 +179,8 @@ function checkEmptyInput()
             window.location.reload();
         }
 
-    //edit data
+    //for edit the profile data
     function editItem(){
-        //var Id = event.target.parentNode.parentNode.id;
         var rowId=document.getElementById("getts").value;
         //alert(x);
         getData();
